@@ -7,6 +7,14 @@ POST http://localhost:3001/api/persons
 Content-Type: application/json
 
 {
-   "name":"peter", 
-    "number":7
+   "name":"Adam", 
+    "number":"758-89444444"
+}
+###
+PUT http://localhost:3001/api/persons/64908824c7e2bdd6ec3ba5b7
+Content-Type: application/json
+
+{
+"name":"timi",
+"number":"02-789352"
 }

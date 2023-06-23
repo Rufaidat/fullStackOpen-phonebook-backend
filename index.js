@@ -44,18 +44,12 @@ app.get("/api/persons/:id", (request, response, next) => {
 
 app.post("/api/persons", (request, response, next) => {
   const body = request.body;
-  // const checkName = persons.find((person) => person.name === body.name);
   if (!body.name || !body.number) {
     return response.status(400).json({
       error: "name or number can't be missing",
     });
   }
-  //  else if (checkName) {
-  //   return response.status(400).json({
-  //     error: "name must be unique",
-  //   });
-  // }
-
+ 
   const person = new Person({ name: body.name, number: body.number });
   person
     .save()
@@ -75,27 +69,27 @@ app.get("/info", (request, response) => {
 
 app.delete("/api/persons/:id", (request, response, next) => {
   Person.findByIdAndRemove(request.params.id)
-    .then((response) => {
-      console.log(response);
-      // response.status(204).send();
+    .then((result) => {
+      response.status(204).end()
     })
     .catch((error) => next(error));
 });
 
-app.put("/api/persons/name", (request, response, next) => {
-  const body = request.body;
 
-  const person = {
-    name: body.name,
-    number: body.number,
-  };
 
-  Person.findOneAndUpdate(request.params.name, person, { new: true })
-    .then((updatedPerson) => {
-      response.json(updatedPerson.toJSON());
+app.put('/api/persons/:id', (request, response, next) => {
+  const { name, number} = request.body
+
+  Person.findByIdAndUpdate(
+    request.params.id, 
+    { name, number},
+    { new: true, runValidators: true, context: 'query' }
+  ) 
+    .then(updatedPerson => {
+      response.json(updatedPerson)
     })
-    .catch((error) => next(error));
-});
+    .catch(error => next(error))
+})
 
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: "unknown endpoint" });
