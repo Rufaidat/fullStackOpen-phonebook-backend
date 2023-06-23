@@ -1,3 +1,3 @@
 # fullStackOpen-phonebook-backend
 
-https://fullstackopen-phonebookapp.onrender.com/
+The phonebook app is live here: https://fullstackopen-phonebookapp.onrender.com/
